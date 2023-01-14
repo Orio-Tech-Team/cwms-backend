@@ -96,6 +96,9 @@ export default class ProductDTO {
   @IsNumber()
   manufacturer_id: number;
 
+  @IsNumber()
+  purchasing_price: number;
+
   @IsBoolean()
   status: boolean;
 

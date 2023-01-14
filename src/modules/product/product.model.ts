@@ -101,7 +101,7 @@ class Product extends Model<ProductDTO> {
   prescription_required: boolean;
 
   @Column
-  drap_ip: string;
+  drap_id: string;
 
   @Column
   side_effects: string;
@@ -117,6 +117,9 @@ class Product extends Model<ProductDTO> {
 
   @Column
   discount_type: DiscountType;
+
+  @Column({ defaultValue: 0 })
+  purchasing_price: number;
 
   @BelongsToMany(() => Category, () => ProductCategory)
   categories: Category[];

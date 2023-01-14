@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { ResponseHelper } from "../../helper/response.common";
 import Customer from "./customer.model";
 import CustomerDTO from "./dto/customer.dto";
 //
@@ -19,18 +20,9 @@ export const create = async (req: Request, res: Response) => {
       ...customer_data,
       account_number: account_number,
     });
-
-    return res.json({
-      message: "Success",
-      status: 200,
-      data: [customer],
-    });
+    return ResponseHelper.get(res, 200, "Success", [customer]);
   } catch (err: any) {
     console.error(err);
-    return res.json({
-      message: err.message,
-      status: 500,
-      data: [],
-    });
+    return ResponseHelper.get(res, 500, err.message, []);
   }
 };

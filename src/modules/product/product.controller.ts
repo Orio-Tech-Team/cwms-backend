@@ -10,6 +10,7 @@ import ProductCategory from "./product-category.model";
 import ProductVendor from "./product-vendor.model";
 import Manufacturer from "../manufacturer/manufacturer.model";
 import Vendor from "../vendor/vendor.model";
+import Category from "../category/category.model";
 //
 type ProductRelation = {
   manufacturer_id: number;
@@ -61,6 +62,7 @@ export const findAll = async (req: Request, res: Response) => {
         ProductConversion,
         ProductTag,
         ProductGenericFormula,
+        Category,
       ],
     });
     return ResponseHelper.get(res, 200, "Success", product);
@@ -80,6 +82,7 @@ export const find = async (req: Request, res: Response) => {
         ProductConversion,
         ProductTag,
         ProductGenericFormula,
+        Category,
       ],
     });
     return ResponseHelper.get(res, 200, "Success", [product]);
@@ -205,7 +208,7 @@ const productGenericFormulaCreateFunction = async (
     var generic_formula_temp: any[] = [];
     productGenericFormula.forEach((each_formula: any) => {
       generic_formula_temp.push({
-        productId: product_id,
+        product_id: product_id,
         product_generic_formula: each_formula,
       });
     });

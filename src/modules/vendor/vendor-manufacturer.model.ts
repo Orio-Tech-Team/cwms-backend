@@ -15,13 +15,6 @@ import Vendor from "./vendor.model";
 
 @Table({ tableName: "vendor_manufacturer", initialAutoIncrement: "1000" })
 class VendorManufacturer extends Model {
-  @ForeignKey(() => Manufacturer)
-  @Column
-  manufacture_id: number;
-
-  @ForeignKey(() => Vendor)
-  @Column
-  vendor_id: number;
   //
   @PrimaryKey
   @AutoIncrement
@@ -34,6 +27,14 @@ class VendorManufacturer extends Model {
 
   @UpdatedAt
   updated_at: Date;
+
+  @ForeignKey(() => Manufacturer)
+  @Column
+  manufacturer_id: number;
+
+  @ForeignKey(() => Vendor)
+  @Column
+  vendor_id: number;
 }
 
 export default VendorManufacturer;

@@ -12,6 +12,7 @@ import ProductGenericFormula from "./modules/product/product-generic_formula.mod
 import ProductTag from "./modules/product/product-tag.model";
 import ProductVendor from "./modules/product/product-vendor.model";
 import VendorManufacturer from "./modules/vendor/vendor-manufacturer.model";
+import VendorTax from "./modules/vendor/vendor-tax.model";
 dotenv.config();
 //
 const sequelize: Sequelize = new Sequelize({
@@ -25,6 +26,7 @@ const sequelize: Sequelize = new Sequelize({
     Category,
     Manufacturer,
     Vendor,
+    VendorTax,
     VendorManufacturer,
     Product,
     ProductCategory,

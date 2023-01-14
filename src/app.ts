@@ -4,7 +4,6 @@ import bodyParser from "body-parser";
 import sequelize from "./db_config";
 import dotenv from "dotenv";
 import cors from "cors";
-import fs from "fs";
 //
 dotenv.config();
 const app: Application = express();
@@ -49,5 +48,5 @@ app.listen(port, function () {
   //
   sequelize.authenticate();
   console.log("Database Connected!");
-  console.log(`App is listening on port ${port} !`);
+  console.log(`Server started at port ${port} !`);
 });

@@ -3,56 +3,47 @@ import UserDTO from "./dto/user.dto";
 import User from "./user.model";
 import bcrypt from "bcryptjs";
 import generateAccessToken from "../../functions/generate_token";
+import { ResponseHelper } from "../../helper/response.common";
 //
 export const login = async (req: Request, res: Response) => {
   const { user_id, password } = req.body;
   if (user_id != "" && password != "") {
     const user = await User.findOne({ where: { user_id } });
     if (!user) {
-      return res.json({
-        message: "User not found!",
-        data: [],
-        status: 404,
-      });
+      return ResponseHelper.get(res, 404, "User not found!", []);
     }
     if (await bcrypt.compare(password, user.password)) {
       const accessToken = generateAccessToken(user.id, user.type);
-      return res.json({
-        message: "Login Successfully!",
-        data: [
-          {
-            token: accessToken,
-          },
-        ],
-        status: 200,
-      });
+      return ResponseHelper.get(res, 200, "Login successfully!", [
+        {
+          token: accessToken,
+          type: user.type,
+          user_id: user.user_id,
+          account_number: user.account_number,
+        },
+      ]);
     } else {
-      return res.json({
-        data: [],
-        message: "Invalid email or password!",
-        status: 400,
-      });
+      return ResponseHelper.get(res, 400, "Invalid user_id or password!", []);
     }
   }
-
-  return res.json({
-    message: "user_id and password cannot be empty!",
-    status: 500,
-    data: [],
-  });
+  return ResponseHelper.get(
+    res,
+    500,
+    "user_id and password cannot be empty!",
+    []
+  );
 };
 //
 export const register = async (req: Request, res: Response) => {
   const user_data: UserDTO = req.body;
 
-  console.log(user_data);
-
   if (user_data.user_id == "" || user_data.password == "") {
-    return res.json({
-      message: "Please Insert UserId and Password!",
-      status: 500,
-      data: [],
-    });
+    return ResponseHelper.get(
+      res,
+      500,
+      "user_id and password cannot be empty!",
+      []
+    );
   }
 
   const user_already_exist: boolean = await userCheckerFunction(
@@ -63,18 +54,10 @@ export const register = async (req: Request, res: Response) => {
   );
 
   if (user_already_exist) {
-    return res.json({
-      message: "User Already Exist!",
-      status: 500,
-      data: [],
-    });
+    return ResponseHelper.get(res, 500, "User already exist!", []);
   }
   if (email_already_exist) {
-    return res.json({
-      message: "Email Already Exist!",
-      status: 500,
-      data: [],
-    });
+    return ResponseHelper.get(res, 500, "Email already exist!", []);
   }
   //   Hash password
   const salt = await bcrypt.genSalt(10);
@@ -88,21 +71,15 @@ export const register = async (req: Request, res: Response) => {
   //
   if (user) {
     const accessToken = generateAccessToken(user.id, user.type);
-    return res.json({
-      message: "User Created Successfully",
-      status: 200,
-      data: [
-        {
-          token: accessToken,
-        },
-      ],
-    });
+
+    return ResponseHelper.get(res, 200, "User created successfully!", [
+      {
+        token: accessToken,
+      },
+    ]);
   }
-  return res.json({
-    message: "Invalid Data!",
-    status: 500,
-    data: [],
-  });
+
+  return ResponseHelper.get(res, 500, "Invalid Data!", []);
   //
 };
 //
@@ -125,11 +102,8 @@ export const findAll = async (req: Request, res: Response) => {
       data: allUsers,
     });
   } catch (err: any) {
-    return res.json({
-      data: [],
-      message: err.message,
-      status: 500,
-    });
+    console.log(err);
+    return ResponseHelper.get(res, 500, err.message, []);
   }
 };
 //
