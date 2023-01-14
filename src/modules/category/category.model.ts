@@ -8,6 +8,7 @@ import {
   Unique,
   CreatedAt,
   UpdatedAt,
+  HasOne,
 } from "sequelize-typescript";
 import CategoryDTO from "./dto/category.dto";
 //
@@ -31,6 +32,9 @@ class Category extends Model<CategoryDTO> {
   @ForeignKey(() => Category)
   @Column({ allowNull: true })
   parent_id: number;
+
+  @HasOne(() => Category)
+  category: Category;
   //
   @PrimaryKey
   @AutoIncrement
