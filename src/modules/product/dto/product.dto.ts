@@ -1,6 +1,6 @@
 import { IsString, IsNumber, IsBoolean, IsDate } from "class-validator";
 //
-type DiscountType = "price" | "percentage";
+export type DiscountType = "price" | "percentage";
 //
 export default class ProductDTO {
   @IsString()
@@ -92,6 +92,9 @@ export default class ProductDTO {
 
   @IsString()
   discount_type: DiscountType;
+
+  @IsNumber()
+  manufacturer_id: number;
 
   @IsBoolean()
   status: boolean;

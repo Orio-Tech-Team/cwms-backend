@@ -1,6 +1,7 @@
 import Category from "./category.model";
 import { Request, Response } from "express";
 import CategoryDTO from "./dto/category.dto";
+import Product from "../product/product.model";
 //
 export const create = async (req: Request, res: Response) => {
   const category_dto: CategoryDTO = req.body;
@@ -25,6 +26,7 @@ export const create = async (req: Request, res: Response) => {
 export const findAll = async (req: Request, res: Response) => {
   try {
     const category = await Category.findAll({
+      include: [Product],
       attributes: { exclude: ["created_at", "updated_at"] },
     });
     return res.json({

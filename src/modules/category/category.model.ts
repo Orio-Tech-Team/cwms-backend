@@ -9,7 +9,10 @@ import {
   CreatedAt,
   UpdatedAt,
   HasOne,
+  BelongsToMany,
 } from "sequelize-typescript";
+import ProductCategory from "../product/product-category.model";
+import Product from "../product/product.model";
 import CategoryDTO from "./dto/category.dto";
 //
 @Table({ tableName: "categories", initialAutoIncrement: "1000" })
@@ -35,6 +38,9 @@ class Category extends Model<CategoryDTO> {
 
   @HasOne(() => Category)
   category: Category;
+
+  @BelongsToMany(() => Product, () => ProductCategory)
+  products: Product[];
   //
   @PrimaryKey
   @AutoIncrement

@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import Manufacturer from "./manufacturer.model";
 import ManufacturerDTO from "./dto/manufacturer.dto";
 import { ResponseHelper } from "../../helper/response.common";
+import Vendor from "../vendor/vendor.model";
 //
 export const create = async (req: Request, res: Response) => {
   const manufacturer_data: ManufacturerDTO = req.body;
@@ -15,7 +16,9 @@ export const create = async (req: Request, res: Response) => {
 };
 export const findAll = async (req: Request, res: Response) => {
   try {
-    const manufacturer = await Manufacturer.findAll();
+    const manufacturer = await Manufacturer.findAll({
+      include: [Vendor],
+    });
     return ResponseHelper.get(res, 200, "Success", manufacturer);
   } catch (err: any) {
     console.error(err);
@@ -25,7 +28,10 @@ export const findAll = async (req: Request, res: Response) => {
 export const find = async (req: Request, res: Response) => {
   const { id } = req.body;
   try {
-    const manufacturer = await Manufacturer.findOne({ where: { id } });
+    const manufacturer = await Manufacturer.findOne({
+      where: { id },
+      include: [Vendor],
+    });
     return ResponseHelper.get(res, 200, "Success", [manufacturer]);
   } catch (err: any) {
     console.error(err);
