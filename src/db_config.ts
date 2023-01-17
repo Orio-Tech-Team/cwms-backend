@@ -13,6 +13,10 @@ import ProductTag from "./modules/product/product-tag.model";
 import ProductVendor from "./modules/product/product-vendor.model";
 import VendorManufacturer from "./modules/vendor/vendor-manufacturer.model";
 import VendorTax from "./modules/vendor/vendor-tax.model";
+import PurchaseOrder from "./modules/purchase_order/purchase_order.model";
+import PurchaseOrderDetail from "./modules/purchase_order/purchase_order-detail.model";
+import Location from "./modules/location/location.model";
+import Grn from "./modules/grn/grn.model";
 dotenv.config();
 //
 const sequelize: Sequelize = new Sequelize({
@@ -22,6 +26,7 @@ const sequelize: Sequelize = new Sequelize({
   password: process.env.DB_PASSWORD,
   models: [
     Customer,
+    Location,
     User,
     Category,
     Manufacturer,
@@ -34,6 +39,9 @@ const sequelize: Sequelize = new Sequelize({
     ProductGenericFormula,
     ProductTag,
     ProductVendor,
+    PurchaseOrder,
+    PurchaseOrderDetail,
+    Grn,
   ],
 });
 

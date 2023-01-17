@@ -10,6 +10,7 @@ import {
   UpdatedAt,
   HasMany,
 } from "sequelize-typescript";
+import Location from "../location/location.model";
 import User from "../user/user.model";
 import CustomerDTO from "./dto/customer.dto";
 //
@@ -30,6 +31,9 @@ class Customer extends Model<CustomerDTO> {
 
   @HasMany(() => User)
   user: User[];
+
+  @HasMany(() => Location)
+  location: Location[];
   //
   @PrimaryKey
   @AutoIncrement

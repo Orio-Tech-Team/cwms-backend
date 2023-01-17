@@ -24,6 +24,9 @@ import UserRoutes from "./modules/user/user.route";
 import ManufacturerRoutes from "./modules/manufacturer/manufacturer.route";
 import VendorRoutes from "./modules/vendor/vendor.route";
 import ProductRoutes from "./modules/product/product.route";
+import PurchaseOrderRoutes from "./modules/purchase_order/purchase_order.route";
+import LocationRoutes from "./modules/location/location.route";
+import GrnRoutes from "./modules/grn/grn.route";
 //
 app.use("/api/category/", CategoryRoutes);
 app.use("/api/customer/", CustomerRoutes);
@@ -31,7 +34,9 @@ app.use("/api/user/", UserRoutes);
 app.use("/api/manufacturer/", ManufacturerRoutes);
 app.use("/api/vendor/", VendorRoutes);
 app.use("/api/product/", ProductRoutes);
-
+app.use("/api/purchase_order/", PurchaseOrderRoutes);
+app.use("/api/location/", LocationRoutes);
+app.use("/api/grn/", GrnRoutes);
 //
 const port: number = +process.env.PORT! || 3001;
 //

@@ -8,38 +8,47 @@ import {
   Unique,
   CreatedAt,
   UpdatedAt,
+  HasOne,
+  BelongsToMany,
   BelongsTo,
 } from "sequelize-typescript";
-import sequelize from "../../db_config";
 import Customer from "../customer/customer.model";
-import UserDTO from "./dto/user.dto";
+import LocationDTO from "./dto/location.dto";
 //
-type UserType = "admin" | "user";
-//
-@Table({ tableName: "users", initialAutoIncrement: "1000" })
-class User extends Model<UserDTO> {
-  @Column
-  user_id: string;
-
-  @Unique
-  @Column({ unique: true })
-  email: string;
-
-  @Column
-  password: string;
-
-  @Column
-  user_name: string;
-
-  @Unique
-  @Column({ unique: true })
-  phone_number: string;
-
-  @Column
-  type: UserType;
-
+@Table({ tableName: "locations", initialAutoIncrement: "1000" })
+class Location extends Model<LocationDTO> {
   @Column
   loc_code: string;
+
+  @Column
+  loc_name: string;
+
+  @Column
+  loc_address: string;
+
+  @Column
+  loc_country: string;
+
+  @Column
+  loc_city: string;
+
+  @Column
+  loc_contact_person: string;
+
+  @Column
+  loc_contact_phone_number: string;
+
+  @Column
+  loc_telephone_number: string;
+
+  @Column
+  loc_fax_number: string;
+
+  @Column
+  loc_email: string;
+
+  @Column
+  loc_type: string;
 
   @ForeignKey(() => Customer)
   @Column({
@@ -51,11 +60,8 @@ class User extends Model<UserDTO> {
   })
   account_number: string;
 
-  @BelongsTo(() => Customer, {
-    constraints: false,
-  })
+  @BelongsTo(() => Customer, { foreignKey: "account_number" })
   customer: Customer;
-
   //
   @PrimaryKey
   @AutoIncrement
@@ -72,6 +78,5 @@ class User extends Model<UserDTO> {
   @UpdatedAt
   updated_at: Date;
 }
-//
 
-export default User;
+export default Location;

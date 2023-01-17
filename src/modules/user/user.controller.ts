@@ -36,50 +36,53 @@ export const login = async (req: Request, res: Response) => {
 //
 export const register = async (req: Request, res: Response) => {
   const user_data: UserDTO = req.body;
+  try {
+    if (user_data.user_id == "" || user_data.password == "") {
+      return ResponseHelper.get(
+        res,
+        500,
+        "user_id and password cannot be empty!",
+        []
+      );
+    }
 
-  if (user_data.user_id == "" || user_data.password == "") {
-    return ResponseHelper.get(
-      res,
-      500,
-      "user_id and password cannot be empty!",
-      []
+    const user_already_exist: boolean = await userCheckerFunction(
+      user_data.user_id
     );
-  }
+    const email_already_exist: boolean = await userEmailCheckerFunction(
+      user_data.email
+    );
 
-  const user_already_exist: boolean = await userCheckerFunction(
-    user_data.user_id
-  );
-  const email_already_exist: boolean = await userEmailCheckerFunction(
-    user_data.email
-  );
+    if (user_already_exist) {
+      return ResponseHelper.get(res, 500, "User already exist!", []);
+    }
+    if (email_already_exist) {
+      return ResponseHelper.get(res, 500, "Email already exist!", []);
+    }
+    //   Hash password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword: string = await bcrypt.hash(user_data.password, salt);
+    //
+    // Create User
+    const user = await User.create({
+      ...user_data,
+      password: hashedPassword,
+    });
+    //
+    if (user) {
+      const accessToken = generateAccessToken(user.id, user.type);
 
-  if (user_already_exist) {
-    return ResponseHelper.get(res, 500, "User already exist!", []);
-  }
-  if (email_already_exist) {
-    return ResponseHelper.get(res, 500, "Email already exist!", []);
-  }
-  //   Hash password
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword: string = await bcrypt.hash(user_data.password, salt);
-  //
-  // Create User
-  const user = await User.create({
-    ...user_data,
-    password: hashedPassword,
-  });
-  //
-  if (user) {
-    const accessToken = generateAccessToken(user.id, user.type);
+      return ResponseHelper.get(res, 200, "User created successfully!", [
+        {
+          token: accessToken,
+        },
+      ]);
+    }
 
-    return ResponseHelper.get(res, 200, "User created successfully!", [
-      {
-        token: accessToken,
-      },
-    ]);
+    return ResponseHelper.get(res, 500, "Invalid Data!", []);
+  } catch (err: any) {
+    return ResponseHelper.get(res, 500, err.message, []);
   }
-
-  return ResponseHelper.get(res, 500, "Invalid Data!", []);
   //
 };
 //
