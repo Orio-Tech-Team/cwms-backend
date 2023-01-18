@@ -99,6 +99,12 @@ export default class ProductDTO {
   @IsNumber()
   purchasing_price: number;
 
+  @IsNumber()
+  mrp_unit_price: number;
+
+  @IsString()
+  trade_discount: number;
+
   @IsBoolean()
   status: boolean;
 

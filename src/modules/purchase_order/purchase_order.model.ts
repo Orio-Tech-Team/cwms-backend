@@ -62,16 +62,16 @@ class PurchaseOrder extends Model<PurchaseOrderDTO> {
   })
   order_type: OrderType;
 
-  @Column
+  @Column({ type: DataType.FLOAT })
   total_amount: number;
 
-  @Column
+  @Column({ type: DataType.FLOAT })
   total_discount: number;
 
-  @Column
+  @Column({ type: DataType.FLOAT })
   sales_tax: number;
 
-  @Column
+  @Column({ type: DataType.FLOAT })
   net_amount: number;
 
   @Column

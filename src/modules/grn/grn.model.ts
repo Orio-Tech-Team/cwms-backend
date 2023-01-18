@@ -65,6 +65,12 @@ class Grn extends Model<GrnDTO> {
 
   @Column
   qc_approved: boolean;
+
+  @Column
+  uom: string;
+
+  @Column
+  po_status: string;
   //
   @PrimaryKey
   @AutoIncrement

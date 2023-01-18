@@ -121,6 +121,12 @@ class Product extends Model<ProductDTO> {
   @Column({ defaultValue: 0 })
   purchasing_price: number;
 
+  @Column
+  mrp_unit_price: number;
+
+  @Column
+  trade_discount: number;
+
   @BelongsToMany(() => Category, () => ProductCategory)
   categories: Category[];
 

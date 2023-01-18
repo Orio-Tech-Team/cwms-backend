@@ -52,6 +52,12 @@ export default class GrnDTO {
   @IsBoolean()
   qc_approved: boolean;
 
+  @IsString()
+  uom: string;
+
+  @IsString()
+  po_status: string;
+
   @IsBoolean()
   status: string;
 

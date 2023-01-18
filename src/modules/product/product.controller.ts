@@ -21,6 +21,21 @@ type ProductRelation = {
   vendor: any[];
 };
 //
+export const findProductById = async (id: number) => {
+  const product = await Product.findOne({
+    where: { id },
+    include: [
+      Manufacturer,
+      Vendor,
+      ProductConversion,
+      ProductTag,
+      ProductGenericFormula,
+      Category,
+    ],
+  });
+  return product?.dataValues;
+};
+//
 export const create = async (req: Request, res: Response) => {
   const product_data: ProductDTO = req.body;
   const {
@@ -74,17 +89,7 @@ export const findAll = async (req: Request, res: Response) => {
 export const find = async (req: Request, res: Response) => {
   const { id } = req.body;
   try {
-    const product = await Product.findOne({
-      where: { id },
-      include: [
-        Manufacturer,
-        Vendor,
-        ProductConversion,
-        ProductTag,
-        ProductGenericFormula,
-        Category,
-      ],
-    });
+    const product = await findProductById(id);
     return ResponseHelper.get(res, 200, "Success", [product]);
   } catch (err: any) {
     console.error(err);
@@ -157,14 +162,14 @@ const productConversionCreateFunction = async (
         }
         case 1: {
           type_temp = {
-            type: "C",
+            type: "B",
             sorting: 1,
           };
           break;
         }
         case 2: {
           type_temp = {
-            type: "C",
+            type: "P",
             sorting: 2,
           };
           break;
@@ -245,3 +250,5 @@ const productVendorCreateFunction = async (
     await ProductVendor.bulkCreate(vendor_temp);
   }
 };
+
+//

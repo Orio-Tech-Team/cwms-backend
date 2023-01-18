@@ -3,10 +3,13 @@ import { ResponseHelper } from "../../helper/response.common";
 import Grn from "./grn.model";
 import GrnDTO from "./dto/grn.dto";
 import sequelize from "../../db_config";
+import { findProductById } from "../product/product.controller";
+import Product from "../product/product.model";
 //
 export const create = async (req: Request, res: Response) => {
   try {
     const { grn_data }: { grn_data: GrnDTO[] } = req.body;
+
     const {
       po_id,
       percent_order_completed,
@@ -25,7 +28,7 @@ export const create = async (req: Request, res: Response) => {
             : true,
         grn_status:
           each_grn.required_quantity - each_grn.received_quantity === 0
-            ? "P"
+            ? "R"
             : "PR",
       };
     });
@@ -62,7 +65,40 @@ export const find = async (req: Request, res: Response) => {
 //
 export const quality_approve = async (req: Request, res: Response) => {
   try {
-    const { id } = req.body;
+    const {
+      id,
+      product_id,
+      foc,
+      uom,
+      maximum_retail_price,
+      trade_price,
+      discount_percentage,
+    } = req.body;
+
+    if (!foc) {
+      const product: any = await findProductById(product_id);
+      const { selling_unit, item_conversion } =
+        product.product_conversions[product.product_conversions.length - 1];
+      //
+      var data_to_update: any = {};
+      if (selling_unit === uom) {
+        data_to_update = {
+          mrp_unit_price: maximum_retail_price,
+          maximum_retail_price: maximum_retail_price,
+          trade_price: trade_price,
+          trade_discount: discount_percentage,
+        };
+      } else {
+        data_to_update = {
+          mrp_unit_price: +maximum_retail_price / +item_conversion,
+          maximum_retail_price: maximum_retail_price,
+          trade_price: trade_price,
+          trade_discount: discount_percentage,
+        };
+      }
+      await Product.update(data_to_update, { where: { id: product_id } });
+    }
+
     await Grn.update(
       {
         qc_approved: true,
@@ -71,7 +107,7 @@ export const quality_approve = async (req: Request, res: Response) => {
         where: { id },
       }
     );
-    return ResponseHelper.get(res, 500, "Success", [{ id }]);
+    return ResponseHelper.get(res, 200, "Success", []);
   } catch (err: any) {
     return ResponseHelper.get(res, 500, err.message, []);
   }

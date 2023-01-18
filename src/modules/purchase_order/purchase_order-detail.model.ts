@@ -9,6 +9,7 @@ import {
   CreatedAt,
   UpdatedAt,
   BelongsTo,
+  DataType,
 } from "sequelize-typescript";
 //
 import PurchaseOrderDetailDTO from "./dto/purchase_order-detail.dto";
@@ -31,16 +32,16 @@ class PurchaseOrderDetail extends Model<PurchaseOrderDetailDTO> {
   @Column
   required_quantity: number;
 
-  @Column
+  @Column({ type: DataType.FLOAT })
   trade_price: number;
 
-  @Column
+  @Column({ type: DataType.FLOAT })
   trade_discount_percentage: number;
 
-  @Column
+  @Column({ type: DataType.FLOAT })
   sales_tax_percentage: number;
 
-  @Column
+  @Column({ type: DataType.FLOAT })
   gst_percentage: number;
 
   @Column
