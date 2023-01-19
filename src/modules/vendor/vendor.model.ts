@@ -130,6 +130,12 @@ class Vendor extends Model<VendorDTO> {
   @Column
   tax_exemption_validity: Date;
 
+  @Column
+  comment: string;
+
+  @Column
+  file_attachment_path: string;
+
   @BelongsToMany(() => Product, () => ProductVendor)
   products: Product[];
 

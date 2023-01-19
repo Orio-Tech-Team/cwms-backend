@@ -1,11 +1,12 @@
 import express, { Application } from "express";
-import errorHandler from "./middleware.ts/error.middleware";
+import errorHandler from "./middlewares/error.middleware";
 import bodyParser from "body-parser";
 import sequelize from "./db_config";
 import dotenv from "dotenv";
 import cors from "cors";
 //
 dotenv.config();
+
 const app: Application = express();
 //
 app.use(cors());
@@ -15,6 +16,7 @@ app.use(
     limit: "10mb",
   })
 );
+
 //
 //
 
@@ -27,6 +29,9 @@ import ProductRoutes from "./modules/product/product.route";
 import PurchaseOrderRoutes from "./modules/purchase_order/purchase_order.route";
 import LocationRoutes from "./modules/location/location.route";
 import GrnRoutes from "./modules/grn/grn.route";
+
+// for parsing multipart/form-data
+app.use(express.static("public"));
 //
 app.use("/api/category/", CategoryRoutes);
 app.use("/api/customer/", CustomerRoutes);

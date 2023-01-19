@@ -25,6 +25,9 @@ class Manufacturer extends Model<ManufacturerDTO> {
   @Column
   line_of_business: string;
 
+  @Column
+  comment: string;
+
   @BelongsToMany(() => Vendor, () => VendorManufacturer)
   vendors: Vendor[];
 

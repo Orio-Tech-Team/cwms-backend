@@ -5,9 +5,12 @@ import GrnDTO from "./dto/grn.dto";
 import sequelize from "../../db_config";
 import { findProductById } from "../product/product.controller";
 import Product from "../product/product.model";
+import arrayModifier from "../../functions/array_modifier";
+import PurchaseOrder from "../purchase_order/purchase_order.model";
 //
 export const create = async (req: Request, res: Response) => {
   try {
+    const old_id: number[] = [];
     const { grn_data }: { grn_data: GrnDTO[] } = req.body;
 
     const {
@@ -16,9 +19,13 @@ export const create = async (req: Request, res: Response) => {
     }: { po_id: number; percent_order_completed: number } = req.body;
     //
     const data_to_store = grn_data.map((each_grn: GrnDTO) => {
+      old_id.push(each_grn.id);
+      //@ts-ignore
+      delete each_grn.id;
       return {
         ...each_grn,
         po_id,
+        po_status: "Approved",
         percent_order_completed,
         remaining_quantity:
           each_grn.required_quantity - each_grn.received_quantity,
@@ -33,7 +40,14 @@ export const create = async (req: Request, res: Response) => {
       };
     });
     //
+    const modified_array = arrayModifier(old_id);
+    await sequelize.query(
+      `UPDATE cwms.grn set is_updatable = 0 where id in ${modified_array}`
+    );
+
+    //
     await Grn.bulkCreate(data_to_store);
+    //
     //
     return ResponseHelper.get(res, 200, "Success", []);
   } catch (err: any) {
@@ -67,6 +81,7 @@ export const quality_approve = async (req: Request, res: Response) => {
   try {
     const {
       id,
+      po_id,
       product_id,
       foc,
       uom,
@@ -90,12 +105,15 @@ export const quality_approve = async (req: Request, res: Response) => {
         };
       } else {
         data_to_update = {
-          mrp_unit_price: +maximum_retail_price / +item_conversion,
+          mrp_unit_price: +(+maximum_retail_price / +item_conversion).toFixed(
+            3
+          ),
           maximum_retail_price: maximum_retail_price,
           trade_price: trade_price,
           trade_discount: discount_percentage,
         };
       }
+
       await Product.update(data_to_update, { where: { id: product_id } });
     }
 
@@ -107,6 +125,24 @@ export const quality_approve = async (req: Request, res: Response) => {
         where: { id },
       }
     );
+    //
+    const [[count]]: any = await sequelize.query(
+      `SELECT count(*) as cnt from cwms.grn where po_id = '${po_id}' and is_updatable=1`
+    );
+    if (count.cnt == 0) {
+      await PurchaseOrder.update(
+        { order_status: "Received" },
+        { where: { id: po_id } }
+      );
+      await Grn.update({ po_status: "Received" }, { where: { po_id } });
+    } else {
+      await PurchaseOrder.update(
+        { order_status: "Par-Received" },
+        { where: { id: po_id } }
+      );
+      await Grn.update({ po_status: "Par-Received" }, { where: { po_id } });
+    }
+    //
     return ResponseHelper.get(res, 200, "Success", []);
   } catch (err: any) {
     return ResponseHelper.get(res, 500, err.message, []);

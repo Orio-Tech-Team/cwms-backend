@@ -7,6 +7,9 @@ export default class ManufacturerDTO {
   @IsString()
   line_of_business: string;
 
+  @IsString()
+  comment: string;
+
   @IsBoolean()
   status: string;
 

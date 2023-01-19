@@ -16,6 +16,9 @@ export default class CategoryDTO {
   @IsString()
   category_image_url: string;
 
+  @IsString()
+  comment: string;
+
   @IsBoolean()
   status: string;
 

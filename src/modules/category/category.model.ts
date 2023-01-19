@@ -32,6 +32,9 @@ class Category extends Model<CategoryDTO> {
   @Column
   category_image_url: string;
 
+  @Column
+  comment: string;
+
   @ForeignKey(() => Category)
   @Column({ allowNull: true })
   parent_id: number;

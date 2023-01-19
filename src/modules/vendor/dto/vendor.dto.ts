@@ -1,4 +1,10 @@
-import { IsString, IsNumber, IsBoolean, IsDate } from "class-validator";
+import {
+  IsString,
+  IsNumber,
+  IsBoolean,
+  IsDate,
+  IsObject,
+} from "class-validator";
 //
 export default class VendorDTO {
   @IsString()
@@ -111,6 +117,15 @@ export default class VendorDTO {
 
   @IsDate()
   tax_exemption_validity: Date;
+
+  @IsString()
+  comment: string;
+
+  @IsString()
+  file_attachment_path: string;
+
+  @IsObject()
+  file_attach: File;
 
   @IsBoolean()
   status: string;

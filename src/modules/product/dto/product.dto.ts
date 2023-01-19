@@ -105,6 +105,9 @@ export default class ProductDTO {
   @IsString()
   trade_discount: number;
 
+  @IsString()
+  comment: string;
+
   @IsBoolean()
   status: boolean;
 

@@ -127,6 +127,9 @@ class Product extends Model<ProductDTO> {
   @Column
   trade_discount: number;
 
+  @Column
+  comment: string;
+
   @BelongsToMany(() => Category, () => ProductCategory)
   categories: Category[];
 

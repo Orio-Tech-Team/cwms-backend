@@ -6,18 +6,22 @@ import Manufacturer from "../manufacturer/manufacturer.model";
 import Product from "../product/product.model";
 import VendorManufacturer from "./vendor-manufacturer.model";
 import VendorTax from "./vendor-tax.model";
+import uploadFileMiddleware from "../../middlewares/upload.middleware";
 //
-export const create = async (req: Request, res: Response) => {
-  const vendor_data: VendorDTO = req.body;
-  const { manufacturer }: any = req.body;
-
+export const create = async (req: any, res: Response) => {
+  // const vendor_data: VendorDTO = req.body;
+  // const { manufacturer }: any = req.body;
   try {
-    const vendor = await Vendor.create(vendor_data);
+    console.log(req);
 
-    await vendorManufacturerCreateFunction(manufacturer, vendor.id);
-    return ResponseHelper.get(res, 200, "Success", [vendor]);
+    await uploadFileMiddleware(req, res);
+    // const vendor = await Vendor.create(vendor_data);
+    // await vendorManufacturerCreateFunction(manufacturer, vendor.id);
+    return ResponseHelper.get(res, 200, "Success", [{ id: 100 }]);
   } catch (err: any) {
     console.error(err);
+    console.log(err.stack);
+
     return ResponseHelper.get(res, 500, err.message, []);
   }
 };
