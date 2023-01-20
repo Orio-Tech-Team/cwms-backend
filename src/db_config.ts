@@ -24,6 +24,7 @@ const sequelize: Sequelize = new Sequelize({
   dialect: "mysql",
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
+  host: process.env.DB_URL,
   models: [
     Customer,
     Location,

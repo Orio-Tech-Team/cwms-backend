@@ -6,9 +6,11 @@ import {
   findVendorTax,
 } from "./vendor.controller";
 import express, { Router } from "express";
+import upload from "../../middlewares/upload.middleware";
+//
 const router: Router = express.Router();
 //
-router.post("/create/", create);
+router.post("/create/", upload.single("file_attachment"), create);
 router.post("/update/", update);
 router.post("/find/", find);
 router.get("/find_all/", findAll);

@@ -42,7 +42,7 @@ export const create = async (req: Request, res: Response) => {
     //
     const modified_array = arrayModifier(old_id);
     await sequelize.query(
-      `UPDATE cwms.grn set is_updatable = 0 where id in ${modified_array}`
+      `UPDATE grn set is_updatable = 0 where id in ${modified_array}`
     );
 
     //
