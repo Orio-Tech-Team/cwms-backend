@@ -127,7 +127,7 @@ export const quality_approve = async (req: Request, res: Response) => {
     );
     //
     const [[count]]: any = await sequelize.query(
-      `SELECT count(*) as cnt from cwms.grn where po_id = '${po_id}' and is_updatable=1`
+      `SELECT count(*) as cnt from grn where po_id = '${po_id}' and is_updatable=1`
     );
     if (count.cnt == 0) {
       await PurchaseOrder.update(
