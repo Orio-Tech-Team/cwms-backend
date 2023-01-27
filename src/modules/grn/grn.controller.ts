@@ -95,24 +95,21 @@ export const quality_approve = async (req: Request, res: Response) => {
       const { selling_unit, item_conversion } =
         product.product_conversions[product.product_conversions.length - 1];
       //
-      var data_to_update: any = {};
-      if (selling_unit === uom) {
-        data_to_update = {
-          mrp_unit_price: maximum_retail_price,
-          maximum_retail_price: maximum_retail_price,
-          trade_price: trade_price,
-          trade_discount: discount_percentage,
-        };
-      } else {
-        data_to_update = {
-          mrp_unit_price: +(+maximum_retail_price / +item_conversion).toFixed(
-            3
-          ),
-          maximum_retail_price: maximum_retail_price,
-          trade_price: trade_price,
-          trade_discount: discount_percentage,
-        };
-      }
+
+      var mrp_unit_price =
+        selling_unit == uom
+          ? maximum_retail_price
+          : +(+maximum_retail_price / +item_conversion).toFixed(3);
+      var purchasing_price = trade_price - discount_percentage + trade_price;
+
+      const data_to_update = {
+        mrp_unit_price: +mrp_unit_price,
+        maximum_retail_price: maximum_retail_price,
+        trade_price: trade_price,
+        trade_discount: discount_percentage,
+        margin: (mrp_unit_price - purchasing_price).toString(),
+        purchasing_price: purchasing_price,
+      };
 
       await Product.update(data_to_update, { where: { id: product_id } });
     }
