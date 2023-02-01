@@ -7,6 +7,7 @@ import { findProductById } from "../product/product.controller";
 import Product from "../product/product.model";
 import arrayModifier from "../../functions/array_modifier";
 import PurchaseOrder from "../purchase_order/purchase_order.model";
+import ProductDTO from "../product/dto/product.dto";
 //
 export const create = async (req: Request, res: Response) => {
   try {
@@ -91,11 +92,13 @@ export const quality_approve = async (req: Request, res: Response) => {
     } = req.body;
 
     if (!foc) {
-      const product: any = await findProductById(product_id);
-      const { selling_unit, item_conversion } =
-        product.product_conversions[product.product_conversions.length - 1];
+      const product: ProductDTO | undefined = await findProductById(product_id);
+      if (product != undefined) {
+        var { selling_unit, item_conversion } =
+          product.product_conversions![product.product_conversions!.length - 1];
+        //
+      }
       //
-
       var mrp_unit_price =
         selling_unit == uom
           ? maximum_retail_price
@@ -110,6 +113,10 @@ export const quality_approve = async (req: Request, res: Response) => {
         margin: (mrp_unit_price - purchasing_price).toString(),
         purchasing_price: purchasing_price,
       };
+      console.log("Hello");
+
+      console.log(data_to_update);
+      console.log("Hi");
 
       await Product.update(data_to_update, { where: { id: product_id } });
     }

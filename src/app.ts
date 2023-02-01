@@ -29,6 +29,7 @@ import ProductRoutes from "./modules/product/product.route";
 import PurchaseOrderRoutes from "./modules/purchase_order/purchase_order.route";
 import LocationRoutes from "./modules/location/location.route";
 import GrnRoutes from "./modules/grn/grn.route";
+import PathRoutes from "./modules/wms/path/path.route";
 
 // for parsing multipart/form-data
 app.use(express.static("public"));
@@ -42,6 +43,8 @@ app.use("/api/product/", ProductRoutes);
 app.use("/api/purchase_order/", PurchaseOrderRoutes);
 app.use("/api/location/", LocationRoutes);
 app.use("/api/grn/", GrnRoutes);
+app.use("/api/wms/path/", PathRoutes);
+
 //
 const port: number = +process.env.PORT! || 3001;
 //

@@ -17,6 +17,10 @@ import PurchaseOrder from "./modules/purchase_order/purchase_order.model";
 import PurchaseOrderDetail from "./modules/purchase_order/purchase_order-detail.model";
 import Location from "./modules/location/location.model";
 import Grn from "./modules/grn/grn.model";
+import Bin from "./modules/wms/bin/bin.model";
+import Rack from "./modules/wms/rack/rack.model";
+import Path from "./modules/wms/path/path.model";
+import Side from "./modules/wms/side/side.model";
 dotenv.config();
 //
 const sequelize: Sequelize = new Sequelize({
@@ -43,6 +47,10 @@ const sequelize: Sequelize = new Sequelize({
     PurchaseOrder,
     PurchaseOrderDetail,
     Grn,
+    Bin,
+    Rack,
+    Path,
+    Side,
   ],
 });
 

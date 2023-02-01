@@ -1,6 +1,6 @@
 import { create, findAll, find, update } from "./category.controller";
-import express, { Router } from "express";
-const router: Router = express.Router();
+import { Router } from "express";
+const router = Router();
 //
 router.post("/create/", create);
 router.get("/find_all/", findAll);
