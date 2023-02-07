@@ -14,11 +14,11 @@ export default class SideDTO {
   loc_no: string;
 
   @IsNumber()
-  id: number;
+  id?: number;
 
   @IsDate()
-  created_at: Date;
+  created_at?: Date;
 
   @IsDate()
-  updated_at: Date;
+  updated_at?: Date;
 }

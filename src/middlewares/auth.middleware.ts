@@ -1,9 +1,10 @@
 import jwt from "jsonwebtoken";
 import asyncHandler from "express-async-handler";
 import { Request, Response, NextFunction } from "express";
+import MyRequest from "../types/Request";
 //
 const protect = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: MyRequest, res: Response, next: NextFunction) => {
     let token: string = "";
     if (
       req.headers.authorization &&
@@ -13,8 +14,9 @@ const protect = asyncHandler(
         // Get token from header
         token = req.headers.authorization.split(" ")[1];
         // Verify Token
-        const decode = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET!);
+        const decode: any = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET!);
         //
+        req.user_information = decode;
         next();
       } catch (error: any) {
         console.log(error);

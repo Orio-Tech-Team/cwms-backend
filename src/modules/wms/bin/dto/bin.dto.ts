@@ -7,8 +7,8 @@ export default class BinDTO {
   @IsString()
   rack_id: string;
 
-  @IsString()
-  sorting: string;
+  @IsNumber()
+  sorting: number;
 
   @IsString()
   acc_no: string;

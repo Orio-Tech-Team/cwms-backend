@@ -13,13 +13,18 @@ export const login = async (req: Request, res: Response) => {
       return ResponseHelper.get(res, 404, "User not found!", []);
     }
     if (await bcrypt.compare(password, user.password)) {
-      const accessToken = generateAccessToken(user.id, user.type);
+      const accessToken = generateAccessToken(
+        user.account_number,
+        user.loc_code,
+        user.type
+      );
       return ResponseHelper.get(res, 200, "Login successfully!", [
         {
           token: accessToken,
           type: user.type,
           user_id: user.user_id,
-          account_number: user.account_number,
+          acc_no: user.account_number,
+          loc_no: user.loc_code,
         },
       ]);
     } else {
@@ -70,7 +75,11 @@ export const register = async (req: Request, res: Response) => {
     });
     //
     if (user) {
-      const accessToken = generateAccessToken(user.id, user.type);
+      const accessToken = generateAccessToken(
+        user.account_number,
+        user.loc_code,
+        user.type
+      );
 
       return ResponseHelper.get(res, 200, "User created successfully!", [
         {
