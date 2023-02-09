@@ -48,8 +48,8 @@ export default class ProductDTO {
   @IsString()
   sku_reorder_level: string;
 
-  @IsDate()
-  sku_warehouse_lead_time: Date;
+  @IsString()
+  sku_warehouse_lead_time: string;
 
   @IsString()
   item_release_level: string;
