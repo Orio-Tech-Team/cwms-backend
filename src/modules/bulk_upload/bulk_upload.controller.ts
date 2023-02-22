@@ -4,8 +4,6 @@ import MyRequest from "../../types/Request";
 //
 export default class BulkUpload {
   static async product_upload(req: MyRequest, res: Response) {
-    console.log(req.body);
-    //
     return ResponseHelper.get(res, 200, "Success", []);
   }
   //
