@@ -34,6 +34,7 @@ import PathRoutes from "./modules/wms/path/path.route";
 import RackRoutes from "./modules/wms/rack/rack.route";
 import SideRoutes from "./modules/wms/side/side.route";
 import BinRoutes from "./modules/wms/bin/bin.route";
+import BulkUploadRoutes from "./modules/bulk_upload/bulk_upload.route";
 
 // for parsing multipart/form-data
 app.use(express.static("public"));
@@ -51,6 +52,7 @@ app.use("/api/wms/path/", PathRoutes);
 app.use("/api/wms/shelf/", RackRoutes);
 app.use("/api/wms/side/", SideRoutes);
 app.use("/api/wms/bin/", BinRoutes);
+app.use("/api/bulk_upload/", BulkUploadRoutes);
 
 //
 const port: number = +process.env.PORT! || 3001;
