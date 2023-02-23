@@ -1,9 +1,11 @@
-const arrayModifier = (array: any[]): string => {
+export default function arrayModifier(array: any[]) {
   var query_temp: string = "(";
-  array.forEach((each_item: string) => {
-    query_temp = query_temp + each_item + ",";
+  array.forEach((each_item, key) => {
+    query_temp =
+      key == array.length - 1
+        ? query_temp + each_item + ","
+        : query_temp + each_item + ")";
+    //
   });
-  query_temp = query_temp.substring(0, query_temp.length - 1);
-  return query_temp + ")";
-};
-export default arrayModifier;
+  return query_temp;
+}
