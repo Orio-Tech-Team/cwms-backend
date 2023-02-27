@@ -67,7 +67,11 @@ app.listen(port, function () {
   // sequelize.sync({ alter: true }).then(() => {
   //   console.log("Database Synced!");
   // });
+  // sequelize.sync().then(() => {
+  //   console.log("Database Synced!");
+  // });
   //
+  console.clear();
   sequelize.authenticate();
   console.log("Database Connected!");
   console.log(`Server started at port ${port} !`);

@@ -19,9 +19,12 @@ export default class CategoryDTO {
   @IsString()
   comment: string;
 
+  @IsString()
+  parent_id?: string;
+
   @IsBoolean()
   status: string;
 
   @IsNumber()
-  id: number;
+  id?: number;
 }

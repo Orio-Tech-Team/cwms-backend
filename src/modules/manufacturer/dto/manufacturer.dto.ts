@@ -14,5 +14,5 @@ export default class ManufacturerDTO {
   status: string;
 
   @IsNumber()
-  id: number;
+  id?: number;
 }

@@ -23,7 +23,9 @@ export default function base64ToCsv(
     return acc + values.join(";") + ";";
   }, "");
   //
-  const outputDirectory = path.join("uploads");
+  const csvArray = csvString.split(";");
+  //
+  const outputDirectory = path.join("uploads/csv/");
   const outputFilePath = path.join(
     outputDirectory,
     fileName.toUpperCase() + "_" + time + "_" + date + ".csv"
@@ -39,5 +41,5 @@ export default function base64ToCsv(
   //
   fs.writeFileSync(outputFilePath, csvString);
   console.log("CSV uploaded successfully!");
-  return csvString.split(";");
+  return csvArray;
 }

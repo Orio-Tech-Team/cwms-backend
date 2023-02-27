@@ -35,12 +35,8 @@ class Category extends Model<CategoryDTO> {
   @Column
   comment: string;
 
-  @ForeignKey(() => Category)
   @Column({ allowNull: true })
   parent_id: number;
-
-  @HasOne(() => Category)
-  category: Category;
 
   @BelongsToMany(() => Product, () => ProductCategory)
   products: Product[];
