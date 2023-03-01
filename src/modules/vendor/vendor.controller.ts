@@ -61,7 +61,7 @@ export const update = async (req: Request, res: Response) => {
         vendor_id: vendor_data.id,
       },
     });
-    await vendorManufacturerCreateFunction(manufacturer, vendor_data.id);
+    await vendorManufacturerCreateFunction(manufacturer, vendor_data.id!);
     return ResponseHelper.get(res, 200, "Success", [vendor_data]);
   } catch (err: any) {
     console.error(err);

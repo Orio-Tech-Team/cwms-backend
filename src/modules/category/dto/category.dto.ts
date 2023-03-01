@@ -8,16 +8,16 @@ export default class CategoryDTO {
   category_name: string;
 
   @IsString()
-  category_description: string;
+  category_description?: string;
 
   @IsNumber()
-  sorting: number;
+  sorting?: number;
 
   @IsString()
-  category_image_url: string;
+  category_image_url?: string;
 
   @IsString()
-  comment: string;
+  comment?: string;
 
   @IsString()
   parent_id?: string;

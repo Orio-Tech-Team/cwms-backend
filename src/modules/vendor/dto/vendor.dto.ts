@@ -11,125 +11,125 @@ export default class VendorDTO {
   vendor_name: string;
 
   @IsString()
-  procurement_category: string;
+  procurement_category?: string;
 
   @IsString()
-  vendor_classification: string;
+  vendor_classification?: string;
 
   @IsString()
-  ntn: string;
+  ntn?: string;
 
   @IsString()
-  cnic: string;
+  cnic?: string;
 
   @IsString()
-  cnic_expiry_date: Date;
+  cnic_expiry_date?: string;
 
   @IsString()
-  strn: Date;
+  strn?: string;
 
   @IsString()
-  drug_license_no: Date;
-
-  @IsDate()
-  tax_status: Date;
+  drug_license_no?: string;
 
   @IsString()
-  drug_sales_license: string;
+  tax_status?: string;
 
   @IsString()
-  tax_exemption: string;
+  drug_sales_license?: string;
 
   @IsString()
-  contact_person: string;
+  tax_exemption?: string;
 
   @IsString()
-  poc_phone_number: string;
+  contact_person?: string;
 
   @IsString()
-  poc_email: string;
+  poc_phone_number?: string;
 
   @IsString()
-  business_address: string;
+  poc_email?: string;
 
   @IsString()
-  city: string;
+  business_address?: string;
 
   @IsString()
-  business_phone_number: string;
+  city?: string;
 
   @IsString()
-  email_address: string;
+  business_phone_number?: string;
 
   @IsString()
-  payment_terms: string;
+  email_address?: string;
 
   @IsString()
-  payment_method: string;
+  payment_terms?: string;
 
   @IsString()
-  vendor_credit_limit: string;
+  payment_method?: string;
 
   @IsString()
-  delivery_lead_time: string;
+  vendor_credit_limit?: string;
 
   @IsString()
-  bank_name: string;
+  delivery_lead_time?: string;
 
   @IsString()
-  bank_branch_code: string;
+  bank_name?: string;
 
   @IsString()
-  branch_city: string;
+  bank_branch_code?: string;
 
   @IsString()
-  account_ibn_number: string;
+  branch_city?: string;
 
   @IsString()
-  vendor_wise_discount: string;
+  account_ibn_number?: string;
 
   @IsString()
-  stock_return_policy: string;
+  vendor_wise_discount?: string;
 
   @IsString()
-  advance_income_tax: string;
+  stock_return_policy?: string;
 
   @IsString()
-  gst: string;
+  advance_income_tax?: string;
 
   @IsString()
-  minimum_order_quantity: string;
+  gst?: string;
 
   @IsString()
-  with_hold_tax_group: string;
+  minimum_order_quantity?: string;
 
   @IsString()
-  sales_tax_group: string;
+  with_hold_tax_group?: string;
 
   @IsString()
-  with_hold_tax_percentage: string;
+  sales_tax_group?: string;
 
   @IsString()
-  sales_tax_percentage: string;
+  with_hold_tax_percentage?: string;
 
   @IsString()
-  line_of_business: string;
-
-  @IsDate()
-  tax_exemption_validity: Date;
+  sales_tax_percentage?: string;
 
   @IsString()
-  comment: string;
+  line_of_business?: string;
 
   @IsString()
-  file_attachment_path: string;
+  tax_exemption_validity?: string;
+
+  @IsString()
+  comment?: string;
+
+  @IsString()
+  file_attachment_path?: string;
 
   @IsObject()
-  file_attach: File;
+  file_attach?: File;
 
   @IsBoolean()
-  status: string;
+  status: boolean;
 
   @IsNumber()
-  id: number;
+  id?: number;
 }

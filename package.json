@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "dev": "nodemon src/app.ts",
+    "dev": "nodemon --watch src/ --ext ts --exec \"clear && nodemon src/app.ts\"",
     "build": "tsc --build",
     "clean": "tsc --build --clean",
     "start": "node dist/app.js",
