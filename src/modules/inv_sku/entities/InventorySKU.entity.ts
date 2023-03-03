@@ -1,25 +1,28 @@
 import {
-  Table,
-  Column,
-  Model,
-  ForeignKey,
-  PrimaryKey,
   AutoIncrement,
-  Unique,
+  Column,
   CreatedAt,
+  HasMany,
+  Model,
+  PrimaryKey,
+  Table,
+  Unique,
   UpdatedAt,
-  HasOne,
-  BelongsToMany,
 } from "sequelize-typescript";
-import GrnDTO from "./dto/grn.dto";
-//
-@Table({ tableName: "grn", initialAutoIncrement: "1000" })
-class Grn extends Model<GrnDTO> {
+import InventorySkuDto from "../dto/InventorySKU.dto";
+import InventorySkuDetail from "./InventoryDetail.entity";
+
+@Table({ tableName: "inward_sku", initialAutoIncrement: "1000" })
+export default class InventorySku extends Model<InventorySkuDto> {
+  @Unique
   @Column
-  po_id: number;
+  inward_id: string;
 
   @Column
-  percent_order_completed: number;
+  inward_date: string;
+
+  @Column
+  po_id: number;
 
   @Column
   product_id: number;
@@ -28,49 +31,34 @@ class Grn extends Model<GrnDTO> {
   product_name: string;
 
   @Column
-  required_quantity: number;
+  required_quantity: string;
 
   @Column
-  received_quantity: number;
+  received_quantity: string;
 
   @Column
-  maximum_retail_price: number;
+  maximum_retail_price: string;
 
   @Column
-  trade_price: number;
+  trade_price: string;
 
   @Column
-  discount_percentage: number;
+  discount_percentage: string;
 
   @Column
   batch_number: string;
 
   @Column
-  batch_expiry: Date;
+  batch_expiry: string;
 
   @Column
   comments: string;
 
   @Column
-  remaining_quantity: number;
-
-  @Column
-  is_updatable: boolean;
-
-  @Column
-  grn_status: string;
-
-  @Column
   foc: boolean;
 
   @Column
-  qc_approved: boolean;
-
-  @Column
   uom: string;
-
-  @Column
-  po_status: string;
 
   @Column
   location_id: string;
@@ -92,6 +80,7 @@ class Grn extends Model<GrnDTO> {
 
   @UpdatedAt
   updated_at: Date;
+  // relations
+  @HasMany(() => InventorySkuDetail)
+  inward_sku_detail: InventorySkuDetail;
 }
-
-export default Grn;

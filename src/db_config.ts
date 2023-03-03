@@ -21,6 +21,8 @@ import Bin from "./modules/wms/bin/bin.model";
 import Rack from "./modules/wms/rack/rack.model";
 import Path from "./modules/wms/path/path.model";
 import Side from "./modules/wms/side/side.model";
+import InventorySku from "./modules/inv_sku/entities/InventorySKU.entity";
+import InventorySkuDetail from "./modules/inv_sku/entities/InventoryDetail.entity";
 dotenv.config();
 //
 const sequelize: Sequelize = new Sequelize({
@@ -51,6 +53,8 @@ const sequelize: Sequelize = new Sequelize({
     Rack,
     Path,
     Side,
+    InventorySku,
+    InventorySkuDetail,
   ],
 });
 

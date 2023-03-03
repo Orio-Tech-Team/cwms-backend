@@ -35,6 +35,7 @@ import RackRoutes from "./modules/wms/rack/rack.route";
 import SideRoutes from "./modules/wms/side/side.route";
 import BinRoutes from "./modules/wms/bin/bin.route";
 import BulkUploadRoutes from "./modules/bulk_upload/bulk_upload.route";
+import InwardRoutes from "./modules/inv_sku/inv_sku.route";
 
 // for parsing multipart/form-data
 app.use(express.static("public"));
@@ -53,7 +54,7 @@ app.use("/api/wms/shelf/", RackRoutes);
 app.use("/api/wms/side/", SideRoutes);
 app.use("/api/wms/bin/", BinRoutes);
 app.use("/api/bulk_upload/", BulkUploadRoutes);
-
+app.use("/api/inward/", InwardRoutes);
 //
 const port: number = +process.env.PORT! || 3001;
 //
@@ -67,6 +68,7 @@ app.listen(port, function () {
   // sequelize.sync({ alter: true }).then(() => {
   //   console.log("Database Synced!");
   // });
+  //
   // sequelize.sync().then(() => {
   //   console.log("Database Synced!");
   // });

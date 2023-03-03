@@ -58,6 +58,12 @@ export default class GrnDTO {
   @IsString()
   po_status: string;
 
+  @IsString()
+  location_id: string;
+
+  @IsString()
+  account_number: string;
+
   @IsBoolean()
   status: string;
 
