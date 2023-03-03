@@ -2,10 +2,10 @@ import { IsString, IsNumber, IsBoolean, IsDate } from "class-validator";
 //
 export default class InventorySkuDto {
   @IsString()
-  inward_id: string;
+  inward_id?: string;
 
   @IsString()
-  inward_date: string;
+  inward_date?: string;
 
   @IsNumber()
   po_id: number;
@@ -53,14 +53,14 @@ export default class InventorySkuDto {
   account_number: string;
 
   @IsNumber()
-  id: number;
+  id?: number;
 
   @IsBoolean()
   status: boolean;
 
   @IsString()
-  created_at: string;
+  created_at?: string;
 
   @IsString()
-  updated_at: string;
+  updated_at?: string;
 }

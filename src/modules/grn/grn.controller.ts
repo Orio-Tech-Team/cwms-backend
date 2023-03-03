@@ -8,6 +8,9 @@ import Product from "../product/product.model";
 import arrayModifier from "../../functions/array_modifier";
 import PurchaseOrder from "../purchase_order/purchase_order.model";
 import ProductDTO from "../product/dto/product.dto";
+import { GrnType } from "./dto/grn.type";
+import InvSkuModule from "../inv_sku/inv_sku.module";
+import MyRequest from "../../types/Request";
 //
 export const create = async (req: Request, res: Response) => {
   try {
@@ -78,7 +81,7 @@ export const find = async (req: Request, res: Response) => {
   }
 };
 //
-export const quality_approve = async (req: Request, res: Response) => {
+export const quality_approve = async (req: MyRequest, res: Response) => {
   try {
     const {
       id,
@@ -89,7 +92,7 @@ export const quality_approve = async (req: Request, res: Response) => {
       maximum_retail_price,
       trade_price,
       discount_percentage,
-    } = req.body;
+    }: GrnType = req.body;
 
     if (!foc) {
       const product: ProductDTO | undefined = await findProductById(product_id);
@@ -103,20 +106,17 @@ export const quality_approve = async (req: Request, res: Response) => {
         selling_unit == uom
           ? maximum_retail_price
           : +(+maximum_retail_price / +item_conversion).toFixed(3);
-      var purchasing_price = trade_price - discount_percentage + trade_price;
+      var purchasing_price: number =
+        +trade_price - +discount_percentage + +trade_price;
 
       const data_to_update = {
         mrp_unit_price: +mrp_unit_price,
         maximum_retail_price: maximum_retail_price,
         trade_price: trade_price,
         trade_discount: discount_percentage,
-        margin: (mrp_unit_price - purchasing_price).toString(),
+        margin: (+mrp_unit_price - purchasing_price).toString(),
         purchasing_price: purchasing_price,
       };
-      console.log("Hello");
-
-      console.log(data_to_update);
-      console.log("Hi");
 
       await Product.update(data_to_update, { where: { id: product_id } });
     }
@@ -146,6 +146,14 @@ export const quality_approve = async (req: Request, res: Response) => {
       );
       await Grn.update({ po_status: "Par-Received" }, { where: { po_id } });
     }
+    //
+    console.log(req.user_information);
+
+    await InvSkuModule.create(
+      req.body,
+      req.user_information!.acc_no,
+      req.user_information!.loc_no
+    );
     //
     return ResponseHelper.get(res, 200, "Success", []);
   } catch (err: any) {

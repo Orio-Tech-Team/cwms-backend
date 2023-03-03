@@ -15,10 +15,10 @@ import InventorySkuDetail from "./InventoryDetail.entity";
 @Table({ tableName: "inward_sku", initialAutoIncrement: "1000" })
 export default class InventorySku extends Model<InventorySkuDto> {
   @Unique
-  @Column
+  @Column({ allowNull: true })
   inward_id: string;
 
-  @Column
+  @Column({ allowNull: true })
   inward_date: string;
 
   @Column
