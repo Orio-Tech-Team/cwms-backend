@@ -8,6 +8,15 @@ export default class InventorySkuDetailDto {
   inward_child: string;
 
   @IsString()
+  product_id: string;
+
+  @IsString()
+  second_level: string;
+
+  @IsString()
+  third_level: string;
+
+  @IsString()
   bin_id: string;
 
   @IsDate()

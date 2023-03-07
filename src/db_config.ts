@@ -23,7 +23,13 @@ import Path from "./modules/wms/path/path.model";
 import Side from "./modules/wms/side/side.model";
 import InventorySku from "./modules/inv_sku/entities/InventorySKU.entity";
 import InventorySkuDetail from "./modules/inv_sku/entities/InventoryDetail.entity";
+import InwardMaster from "./modules/inv_sku/entities/InwardMaster.entity";
 dotenv.config();
+//
+function customLogger(queryString, queryObject) {
+  console.log(queryString); // outputs a string
+  console.log(queryObject.bind); // outputs an array
+}
 //
 const sequelize: Sequelize = new Sequelize({
   database: process.env.DB_DATABASE,
@@ -31,6 +37,8 @@ const sequelize: Sequelize = new Sequelize({
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   host: process.env.DB_URL,
+  logging: customLogger,
+  logQueryParameters: true,
   models: [
     Customer,
     Location,
@@ -55,6 +63,7 @@ const sequelize: Sequelize = new Sequelize({
     Side,
     InventorySku,
     InventorySkuDetail,
+    InwardMaster,
   ],
 });
 

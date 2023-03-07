@@ -42,12 +42,12 @@ export default class BulkUpload {
         manufacturer_id: 0,
         margin: "",
         maximum_retail_price: "",
-        mrp_unit_price: "",
+        mrp_unit_price: 0,
         prescription_required: "",
         price_levels: "",
         product_lifecycle: "",
         product_name: "",
-        purchasing_price: "",
+        purchasing_price: 0,
         purchasing_unit: "",
         quantity: "",
         sales_tax_group: "",
@@ -63,7 +63,7 @@ export default class BulkUpload {
         status: "",
         stock_nature: "",
         tax_code: "",
-        trade_discount: "",
+        trade_discount: 0,
         trade_price: "",
         product_conversions: "",
         manufacturer_name: "",
@@ -78,8 +78,6 @@ export default class BulkUpload {
         product_id: 0,
       };
       //
-      console.log(arrayData.length);
-
       //
       var j = 0;
       for (let i = 0; i < (arrayData.length - 2) / 31; i++) {
@@ -474,8 +472,12 @@ export default class BulkUpload {
         manufacturer_id: 0,
       };
       //
+      console.log(arrayData.length);
+      console.log(arrayData);
       var j = 0;
       for (let i = 0; i < (arrayData.length - 2) / 33; i++) {
+        console.log(i);
+
         vendorData.vendor_name = arrayData[j++];
         vendorData.status = JSON.parse(arrayData[j++]);
         vendorData.comment = arrayData[j++];
@@ -511,63 +513,9 @@ export default class BulkUpload {
         vendorData.manufacturer_name = arrayData[j++]
           .split(",")
           .map((each_elem: string) => each_elem.trim());
-        //
-
-        const vendorExists = await Vendor.findOne({
-          raw: true,
-          where: { vendor_name: vendorData.vendor_name },
-        });
-        if (vendorExists) {
-          await Vendor.update(
-            { ...vendorData },
-            {
-              where: {
-                vendor_name: vendorExists.id,
-              },
-            }
-          );
-          vendorData.vendor_id = vendorExists.id;
-        } else {
-          const vendor = await Vendor.create({ ...vendorData }, { raw: true });
-          vendorData.vendor_id = vendor.id;
-        }
-        //
-        await VendorManufacturer.destroy({
-          where: {
-            vendor_id: vendorData.vendor_id,
-          },
-        });
-        //
-        vendorData.manufacturer_name.forEach(async (each_manu: string) => {
-          const manufacturerExists = await Manufacturer.findOne({
-            raw: true,
-            where: {
-              manufacturer_name: each_manu,
-            },
-          });
-          vendorData.manufacturer_id = manufacturerExists?.id;
-          //
-          if (manufacturerExists == null) {
-            const manufacturer = await Manufacturer.create(
-              {
-                manufacturer_name: each_manu,
-                comment: "",
-                line_of_business: "",
-                status: "true",
-              },
-              { raw: true }
-            );
-            vendorData.manufacturer_id = manufacturer.id;
-          }
-          //
-          await VendorManufacturer.create({
-            vendor_id: vendorData.vendor_id,
-            manufacturer_id: vendorData.manufacturer_id,
-          });
-          //
-        });
-        //
+        console.log(vendorData);
       }
+
       //
       return ResponseHelper.get(res, 200, "Success", []);
     } catch (err: any) {

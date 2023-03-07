@@ -16,7 +16,13 @@ const protect = asyncHandler(
         // Verify Token
         const decode: any = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET!);
         //
-        req.user_information = decode;
+
+        const data = JSON.parse(
+          req.rawHeaders[req.rawHeaders.indexOf("X-Custom-Header") + 1]
+        );
+
+        req.user_information = data;
+
         next();
       } catch (error: any) {
         console.log(error);

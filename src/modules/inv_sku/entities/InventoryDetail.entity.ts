@@ -22,6 +22,15 @@ export default class InventorySkuDetail extends Model<InventorySkuDetailDto> {
   inward_child: string;
 
   @Column
+  product_id: string;
+
+  @Column
+  second_level: string;
+
+  @Column
+  third_level: string;
+
+  @Column
   bin_id: string;
 
   @Column

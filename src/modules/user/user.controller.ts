@@ -23,6 +23,7 @@ export const login = async (req: Request, res: Response) => {
           token: accessToken,
           type: user.type,
           user_id: user.user_id,
+          user_name: user.user_name,
           acc_no: user.account_number,
           loc_no: user.loc_code,
         },
