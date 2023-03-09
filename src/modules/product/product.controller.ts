@@ -11,6 +11,7 @@ import ProductVendor from "./product-vendor.model";
 import Manufacturer from "../manufacturer/manufacturer.model";
 import Vendor from "../vendor/vendor.model";
 import Category from "../category/category.model";
+import arrayModifier from "../../functions/array_modifier";
 //
 type ProductRelation = {
   manufacturer_id: number;
@@ -123,7 +124,21 @@ export const find = async (req: Request, res: Response) => {
   }
 };
 //
-
+export const findInIds = async (req: Request, res: Response) => {
+  try {
+    const { ids } = req.body;
+    const product = await Product.findAll({
+      include: [ProductConversion, Manufacturer],
+      attributes: ["id", "product_name", "sales_tax_percentage", "quantity"],
+      where: {
+        id: ids,
+      },
+    });
+    return ResponseHelper.get(res, 200, "Success", product);
+  } catch (err: any) {
+    return ResponseHelper.get(res, 500, err.message, []);
+  }
+};
 //
 export const update = async (req: Request, res: Response) => {
   const product_data: ProductDTO = req.body;
