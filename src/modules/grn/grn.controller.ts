@@ -45,11 +45,11 @@ export const create = async (req: Request, res: Response) => {
     });
     //
     const modified_array = arrayModifier(old_id);
+
     await sequelize.query(
       `UPDATE grn set is_updatable = 0 where id in ${modified_array}`
     );
 
-    //
     await Grn.bulkCreate(data_to_store);
     //
     //

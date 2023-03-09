@@ -20,10 +20,10 @@ export default function base64ToCsv(
   // Convert CSV data to string
   const csvString: string = data.reduce((acc, row) => {
     const values = Object.values(row);
-    return acc + values.join(";") + ";";
+    return acc + values.join("#$#") + "#$#";
   }, "");
   //
-  const csvArray: any[] = csvString.split(";");
+  const csvArray: any[] = csvString.split("#$#");
   //
   const outputDirectory = path.join("uploads/csv/");
   const outputFilePath = path.join(

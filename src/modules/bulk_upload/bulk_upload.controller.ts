@@ -286,14 +286,14 @@ export default class BulkUpload {
       //
       const arrayData = base64ToCsv(csv, "category");
       //
-      var category_data = {
+      var category_data: any = {
         category_level: "",
         category_name: "",
         category_description: "",
         sorting: 0,
         category_image_url: "",
         comment: "",
-        parent_id: "",
+        parent_id: 0,
         parent_name: "",
         status: "1",
       };
@@ -472,12 +472,9 @@ export default class BulkUpload {
         manufacturer_id: 0,
       };
       //
-      console.log(arrayData.length);
-      console.log(arrayData);
+
       var j = 0;
       for (let i = 0; i < (arrayData.length - 2) / 33; i++) {
-        console.log(i);
-
         vendorData.vendor_name = arrayData[j++];
         vendorData.status = JSON.parse(arrayData[j++]);
         vendorData.comment = arrayData[j++];
@@ -485,11 +482,13 @@ export default class BulkUpload {
         vendorData.vendor_classification = arrayData[j++];
         vendorData.ntn = arrayData[j++];
         vendorData.cnic = arrayData[j++];
-        vendorData.cnic_expiry_date = arrayData[j++];
+        vendorData.cnic_expiry_date =
+          arrayData[j++] == "" ? null : arrayData[j++] == "";
         vendorData.tax_status = arrayData[j++];
         vendorData.drug_sales_license = arrayData[j++];
         vendorData.tax_exemption = arrayData[j++];
-        vendorData.tax_exemption_validity = arrayData[j++];
+        vendorData.tax_exemption_validity =
+          arrayData[j++] == "" ? null : arrayData[j++];
         vendorData.with_hold_tax_group = arrayData[j++];
         vendorData.with_hold_tax_percentage = arrayData[j++];
         vendorData.strn = arrayData[j++];
@@ -513,7 +512,67 @@ export default class BulkUpload {
         vendorData.manufacturer_name = arrayData[j++]
           .split(",")
           .map((each_elem: string) => each_elem.trim());
-        console.log(vendorData);
+        //
+
+        const vendorExists = await Vendor.findOne({
+          raw: true,
+          where: { vendor_name: vendorData.vendor_name },
+        });
+        vendorExists;
+
+        if (vendorExists) {
+          vendorData.vendor_id = vendorExists!.id;
+          await Vendor.update(
+            {
+              ...vendorData,
+            },
+            {
+              where: {
+                id: vendorData.vendor_id,
+              },
+            }
+          );
+        } else {
+          const vendor = await Vendor.create({ ...vendorData }, { raw: true });
+          vendorData.vendor_id = vendor.id;
+        }
+        //
+        await VendorManufacturer.destroy({
+          where: {
+            vendor_id: vendorData.vendor_id,
+          },
+        });
+        //
+        vendorData.manufacturer_name.forEach(async (each_manu: string) => {
+          const manufacturerExists = await Manufacturer.findOne({
+            raw: true,
+            where: {
+              manufacturer_name: each_manu,
+            },
+          });
+          vendorData.manufacturer_id = manufacturerExists?.id;
+          //
+          if (manufacturerExists == null) {
+            const manufacturer = await Manufacturer.create(
+              {
+                manufacturer_name: each_manu,
+                comment: "",
+                line_of_business: "",
+                status: "true",
+              },
+              { raw: true }
+            );
+            vendorData.manufacturer_id = manufacturer.id;
+          }
+          //
+
+          await VendorManufacturer.create({
+            vendor_id: vendorData.vendor_id,
+            manufacturer_id: vendorData.manufacturer_id,
+          });
+          //
+        });
+        //
       }
 
       //
