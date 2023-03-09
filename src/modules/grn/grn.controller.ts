@@ -95,7 +95,7 @@ export const quality_approve = async (req: MyRequest, res: Response) => {
     }: GrnType = req.body;
 
     if (!foc) {
-      const product: ProductDTO | undefined = await findProductById(product_id);
+      const product: ProductDTO | null = await findProductById(product_id);
       if (product != undefined) {
         var { selling_unit, item_conversion } =
           product.product_conversions![product.product_conversions!.length - 1];

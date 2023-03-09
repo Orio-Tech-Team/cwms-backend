@@ -21,6 +21,32 @@ type ProductRelation = {
   vendor: any[];
 };
 //
+export const findForDataTable = async (req: Request, res: Response) => {
+  try {
+    const product = await Product.findAll({
+      attributes: [
+        "id",
+        "product_name",
+        "trade_price",
+        "discounted_price",
+        "maximum_retail_price",
+        "stock_nature",
+        "quantity",
+        "status",
+      ],
+      include: [
+        {
+          model: Manufacturer,
+          attributes: ["manufacturer_name"],
+        },
+      ],
+    });
+    return ResponseHelper.get(res, 200, "Success", product);
+  } catch (err: any) {
+    return ResponseHelper.get(res, 500, err.message, []);
+  }
+};
+//
 export const findProductById = async (id: number) => {
   const product = await Product.findOne({
     where: { id },
@@ -33,7 +59,7 @@ export const findProductById = async (id: number) => {
       Category,
     ],
   });
-  return product?.dataValues;
+  return product;
 };
 //
 export const create = async (req: Request, res: Response) => {
@@ -96,6 +122,9 @@ export const find = async (req: Request, res: Response) => {
     return ResponseHelper.get(res, 500, err.message, []);
   }
 };
+//
+
+//
 export const update = async (req: Request, res: Response) => {
   const product_data: ProductDTO = req.body;
   const {
