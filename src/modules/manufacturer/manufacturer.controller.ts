@@ -52,3 +52,14 @@ export const update = async (req: Request, res: Response) => {
     return ResponseHelper.get(res, 500, err.message, []);
   }
 };
+export const findForDataTable = async (req: Request, res: Response) => {
+  try {
+    const manufacturer = await Manufacturer.findAll({
+      attributes: ["id", "manufacturer_name", "line_of_business", "status"],
+    });
+    return ResponseHelper.get(res, 200, "Success", manufacturer);
+  } catch (err: any) {
+    console.error(err);
+    return ResponseHelper.get(res, 500, err.message, []);
+  }
+};

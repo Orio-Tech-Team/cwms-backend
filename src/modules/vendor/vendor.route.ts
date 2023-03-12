@@ -4,6 +4,8 @@ import {
   find,
   update,
   findVendorTax,
+  findForPurchaseOrder,
+  findForDataTable,
 } from "./vendor.controller";
 import express, { Router } from "express";
 import upload from "../../middlewares/upload.middleware";
@@ -15,5 +17,7 @@ router.post("/update/", update);
 router.post("/find/", find);
 router.get("/find_all/", findAll);
 router.get("/find_vendor_tax/", findVendorTax);
+router.get("/find_for_po/", findForPurchaseOrder);
+router.get("/find_for_dt/", findForDataTable);
 //
 export default router;

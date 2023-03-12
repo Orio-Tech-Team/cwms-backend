@@ -79,6 +79,44 @@ export const findVendorTax = async (req: Request, res: Response) => {
   }
 };
 //
+export const findForDataTable = async (req: Request, res: Response) => {
+  try {
+    const vendor = await Vendor.findAll({
+      attributes: [
+        "id",
+        "vendor_name",
+        "procurement_category",
+        "drug_license_no",
+        "contact_person",
+        "business_phone_number",
+        "email_address",
+        "payment_method",
+        "status",
+      ],
+    });
+    return ResponseHelper.get(res, 200, "Success", vendor);
+  } catch (err: any) {
+    return ResponseHelper.get(res, 500, err.message, []);
+  }
+};
+//
+export const findForPurchaseOrder = async (req: Request, res: Response) => {
+  try {
+    const vendor = await Vendor.findAll({
+      attributes: ["id", "vendor_name"],
+      include: [
+        {
+          model: Product,
+          attributes: ["id", "product_name"],
+          through: { attributes: [] },
+        },
+      ],
+    });
+    return ResponseHelper.get(res, 200, "Success", vendor);
+  } catch (err: any) {
+    return ResponseHelper.get(res, 500, err.message, []);
+  }
+};
 //
 //
 const vendorManufacturerCreateFunction = async (
