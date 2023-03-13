@@ -63,3 +63,18 @@ export const findForDataTable = async (req: Request, res: Response) => {
     return ResponseHelper.get(res, 500, err.message, []);
   }
 };
+//
+export const findForDropDown = async (req: Request, res: Response) => {
+  try {
+    const manufacturer = await Manufacturer.findAll({
+      raw: true,
+      attributes: ["id", "manufacturer_name"],
+      where: {
+        status: true,
+      },
+    });
+    return ResponseHelper.get(res, 200, "Success", manufacturer);
+  } catch (err: any) {
+    return ResponseHelper.get(res, 500, err.message, []);
+  }
+};

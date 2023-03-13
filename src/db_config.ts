@@ -27,8 +27,12 @@ import InwardMaster from "./modules/inv_sku/entities/InwardMaster.entity";
 dotenv.config();
 //
 function customLogger(queryString, queryObject) {
-  console.log(queryString); // outputs a string
-  console.log(queryObject.bind); // outputs an array
+  if (queryString != undefined) {
+    console.log(queryString); // outputs a string
+  }
+  if (queryObject.bind != undefined) {
+    console.log(queryObject.bind); // outputs an array
+  }
 }
 //
 const sequelize: Sequelize = new Sequelize({
