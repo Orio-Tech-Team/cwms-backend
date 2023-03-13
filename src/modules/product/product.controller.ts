@@ -128,7 +128,13 @@ export const findInIds = async (req: Request, res: Response) => {
   try {
     const { ids } = req.body;
     const product = await Product.findAll({
-      include: [ProductConversion, Manufacturer],
+      include: [
+        {
+          model: ProductConversion,
+          attributes: ["selling_unit", "item_conversion", "sorting"],
+        },
+        { model: Manufacturer, attributes: ["manufacturer_name", "id"] },
+      ],
       attributes: ["id", "product_name", "sales_tax_percentage", "quantity"],
       where: {
         id: ids,
